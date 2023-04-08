@@ -49,3 +49,8 @@ app.post('/api', upload.single('file'), (req, res) => {
     }, 2000);
   }, 2000);
 });
+
+
+app.get('/', (req, res) => {
+  return res.json("Created by AndersonPGS access my github to more info")
+});
