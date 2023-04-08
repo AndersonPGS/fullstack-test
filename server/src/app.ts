@@ -1,5 +1,7 @@
 import express from 'express';
 import WebSocket from 'ws';
+import multer from 'multer';
+import path from 'path';
 
 const app = express();
 
@@ -14,8 +16,19 @@ var cors = require('cors')
 app.use(cors())
 app.use(express.json());
 
-app.post('/api', (req, res) => {
-  const { input } = req.body;
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, 'uploads/')
+  },
+  filename: function (req, file, cb) {
+    cb(null, file.fieldname + '-' + Date.now() + path.extname(file.originalname))
+  }
+})
+
+const upload = multer({ storage: storage })
+
+app.post('/api', upload.single('file'), (req, res) => {
+  const { file } = req;
 
   const updateStatus = (status: string) => {
     wss.clients.forEach(client => {
@@ -27,8 +40,12 @@ app.post('/api', (req, res) => {
   setTimeout(() => {
     updateStatus('Processando');
     setTimeout(() => {
-      updateStatus(`Finalizado`);
-      res.json({ message: `Mensagem: ${input}` });
-    }, 5000);
-  }, 5000);
+      console.log(file)
+      if (file) {
+        console.log("file")
+        updateStatus(`Finalizado`);
+        res.download(path.join(file.path))
+      }
+    }, 2000);
+  }, 2000);
 });
