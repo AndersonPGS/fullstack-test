@@ -6,7 +6,7 @@ function App() {
   const [status, setStatus] = useState('');
   const [data, setData] = useState('');
 
-  const ws = new WebSocket('ws://localhost:3001/');
+  const ws = new WebSocket('ws://fullstack-test-gamma.vercel.app/');
 
   useEffect(() => {
     ws.onmessage = event => {
@@ -23,7 +23,7 @@ function App() {
 
     try {
       setStatus('Enviando arquivo...');
-      const response = await axios.post('http://localhost:3001/api', formData, {
+      const response = await axios.post('https://fullstack-test-gamma.vercel.app/api', formData, {
         responseType: 'blob'
       });
 
