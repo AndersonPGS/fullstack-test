@@ -6,7 +6,7 @@ function App() {
   const [status, setStatus] = useState('');
   const [data, setData] = useState('');
 
-  const ws = new WebSocket('ws://fullstack-test-gamma.vercel.app:9001/');
+  const ws = new WebSocket('wss://fullstack-test-gamma.vercel.app/');
 
   useEffect(() => {
     ws.onmessage = event => {
@@ -15,7 +15,7 @@ function App() {
     };
   }, [ws]);
 
-  const handleSubmit = async (e: any) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
     const formData = new FormData();
