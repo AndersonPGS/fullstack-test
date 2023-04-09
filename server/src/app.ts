@@ -52,5 +52,5 @@ app.post('/api', upload.single('file'), (req, res) => {
 
 
 app.get('/', (req, res) => {
-  return res.json("Created by AndersonPGS | access my github to more info")
+  return res.json("Created by AndersonPGS | Access my github to more info")
 });
