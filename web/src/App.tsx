@@ -6,7 +6,7 @@ function App() {
   const [status, setStatus] = useState('');
   const [data, setData] = useState('');
 
-  const ws = new WebSocket('ws://fullstack-test-gamma.vercel.app/');
+  const ws = new WebSocket('ws://fullstack-test-gamma.vercel.app:9001/');
 
   useEffect(() => {
     ws.onmessage = event => {

@@ -30,26 +30,31 @@ const storage = multer.diskStorage({
 const upload = multer({ storage: storage })
 
 app.post('/api', upload.single('file'), (req, res) => {
-  const { file } = req;
+  try {
+    const { file } = req;
 
-  const updateStatus = (status: string) => {
-    wss.clients.forEach(client => {
-      client.send(JSON.stringify({ status }));
-    });
-  }
+    const updateStatus = (status: string) => {
+      wss.clients.forEach(client => {
+        client.send(JSON.stringify({ status }));
+      });
+    }
 
-  updateStatus('Editando');
-  setTimeout(() => {
-    updateStatus('Processando');
+    updateStatus('Editando');
     setTimeout(() => {
-      console.log(file)
-      if (file) {
-        console.log("file")
-        updateStatus(`Finalizado`);
-        res.download(path.join(file.path))
-      }
+      updateStatus('Processando');
+      setTimeout(() => {
+        console.log(file)
+        if (file) {
+          console.log("file")
+          updateStatus(`Finalizado`);
+          res.download(path.join(file.path))
+        }
+      }, 2000);
     }, 2000);
-  }, 2000);
+  } catch (error) {
+    console.log(error);
+    res.status(400).json({ msg: error.message });
+  }
 });
 
 
