@@ -12,11 +12,8 @@ const pusher = new Pusher({
   cluster: "sa1",
   useTLS: true
 });
-
-const port = process.env.PORT || 3001;
-
 app.listen(3000, () => {
-  console.log(`Servidor iniciado na porta ${port}`);
+  console.log(`Servidor iniciado na porta 3000`);
 });
 
 var cors = require('cors');
