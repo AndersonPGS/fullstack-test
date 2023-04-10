@@ -1,19 +1,22 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
+import Pusher from 'pusher-js';
 
 function App() {
   const [input, setInput] = useState('');
   const [status, setStatus] = useState('');
   const [data, setData] = useState('');
 
-  const ws = new WebSocket('wss://fullstack-test-gamma.vercel.app/');
+  const pusher = new Pusher(process.env.REACT_APP_PUSHER_KEY || '', {
+    cluster: process.env.REACT_APP_PUSHER_CLUSTER,
+  });
+  const channel = pusher.subscribe('my-channel');
 
   useEffect(() => {
-    ws.onmessage = event => {
-      const { status } = JSON.parse(event.data);
-      setStatus(status);
-    };
-  }, [ws]);
+    channel.bind('my-event', (data: any) => {
+      setStatus(data.status);
+    });
+  }, [channel]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();

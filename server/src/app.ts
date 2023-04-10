@@ -2,11 +2,17 @@ import express from 'express';
 import multer from 'multer';
 import path from 'path';
 import { createServer } from 'http';
-import { Server, Socket } from 'socket.io';
+import Pusher from 'pusher';
 
 const app = express();
 const httpServer = createServer(app);
-const io = new Server(httpServer);
+const pusher = new Pusher({
+  appId: "1581758",
+  key: "a82b30f1eb6a9725e188",
+  secret: "f2e6bbb1f8215d0484f8",
+  cluster: "sa1",
+  useTLS: true
+});
 
 const port = process.env.PORT || 3001;
 
@@ -35,7 +41,7 @@ app.post('/api', upload.single('file'), (req, res) => {
     const { file } = req;
 
     const updateStatus = (status: string) => {
-      io.emit('status', status);
+      pusher.trigger('my-channel', 'status', { status });
     };
 
     updateStatus('Editando');
@@ -58,9 +64,5 @@ app.post('/api', upload.single('file'), (req, res) => {
 
 app.get('/', (req, res) => {
   return res.json('Created by AndersonPGS | Access my github profile to more info');
-});
-
-io.on('connection', (socket: Socket) => {
-  console.log('a user connected');
 });
 
