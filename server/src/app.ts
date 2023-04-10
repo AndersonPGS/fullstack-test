@@ -16,7 +16,7 @@ const pusher = new Pusher({
 
 const port = process.env.PORT || 3001;
 
-httpServer.listen(port, () => {
+httpServer.listen(3000, () => {
   console.log(`Servidor iniciado na porta ${port}`);
 });
 
