@@ -7,8 +7,8 @@ function App() {
   const [status, setStatus] = useState('');
   const [data, setData] = useState('');
 
-  const pusher = new Pusher(process.env.REACT_APP_PUSHER_KEY || '', {
-    cluster: process.env.REACT_APP_PUSHER_CLUSTER,
+  const pusher = new Pusher("a82b30f1eb6a9725e188", {
+    cluster: "sa1",
   });
   const channel = pusher.subscribe('my-channel');
 
