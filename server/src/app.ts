@@ -5,7 +5,6 @@ import { createServer } from 'http';
 import Pusher from 'pusher';
 
 const app = express();
-const httpServer = createServer(app);
 const pusher = new Pusher({
   appId: "1581758",
   key: "a82b30f1eb6a9725e188",
@@ -16,7 +15,7 @@ const pusher = new Pusher({
 
 const port = process.env.PORT || 3001;
 
-httpServer.listen(3000, () => {
+app.listen(3000, () => {
   console.log(`Servidor iniciado na porta ${port}`);
 });
 
